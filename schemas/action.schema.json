@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://forge.dev/schemas/action.schema.json",
+  "title": "Action",
+  "description": "An executable operation with explicit preconditions and compensation support.",
+  "type": "object",
+  "required": ["id", "change", "kind", "preconditions", "compensation"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^act_[a-zA-Z0-9]+$" },
+    "change": { "type": "string", "description": "Change id this action realizes" },
+    "kind": { "type": "string", "description": "Plugin-defined operation kind, e.g. docker.update_image" },
+    "preconditions": {
+      "type": "array",
+      "items": { "type": "string", "description": "Human/machine-checkable precondition expression" }
+    },
+    "compensation": {
+      "type": "string",
+      "enum": ["supported", "partial", "unsupported"]
+    }
+  },
+  "additionalProperties": false
+}

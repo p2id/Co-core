@@ -1,0 +1,45 @@
+[workspace]
+resolver = "2"
+members = [
+    "crates/forge-core",
+    "crates/forge-state",
+    "crates/forge-resource",
+    "crates/forge-change",
+    "crates/forge-graph",
+    "crates/forge-plan",
+    "crates/forge-exec",
+    "crates/forge-verify",
+    "crates/forge-compensate",
+    "crates/forge-policy",
+    "crates/forge-evidence",
+    "crates/forge-storage",
+    "crates/forge-plugin",
+    "crates/forge-cli",
+    "plugins/filesystem",
+    "plugins/git",
+    "plugins/docker",
+    "integration-tests",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "Apache-2.0"
+repository = "https://github.com/forge-dev/forge"
+
+[workspace.dependencies]
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+thiserror = "1"
+chrono = { version = "0.4", features = ["serde"] }
+rusqlite = { version = "0.31", features = ["bundled"] }
+clap = { version = "4", features = ["derive"] }
+uuid = { version = "1", features = ["v4"] }
+anyhow = "1"
+
+# Core domain crates are intentionally NOT allowed to depend on clap or any
+# AI/HTTP client crate (ADR 0001). Only forge-cli may depend on clap.
+
+[profile.release]
+opt-level = 3
+lto = true

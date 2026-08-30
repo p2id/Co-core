@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://forge.dev/schemas/resource.schema.json",
+  "title": "Resource",
+  "description": "Anything observable or manageable. Identity is provider://kind/id.",
+  "type": "object",
+  "required": ["id", "provider", "kind", "attributes", "observed_at"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Canonical identity, e.g. fs://file/project/config.yaml",
+      "pattern": "^[a-z0-9_-]+://[a-z0-9_-]+/.+$"
+    },
+    "provider": { "type": "string", "description": "e.g. fs, git, docker" },
+    "kind": { "type": "string", "description": "e.g. file, container, repository" },
+    "attributes": {
+      "type": "object",
+      "description": "Provider-specific observed attributes as key/value pairs",
+      "additionalProperties": true
+    },
+    "observed_at": { "type": "string", "format": "date-time" },
+    "source": { "type": "string", "description": "plugin name that produced this observation" }
+  },
+  "additionalProperties": false
+}

@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://forge.dev/schemas/execution.schema.json",
+  "title": "Execution",
+  "description": "A record of executing a Plan, tracking the state machine through completion or compensation.",
+  "type": "object",
+  "required": ["id", "plan", "state", "started_at", "action_results"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^exec_[a-zA-Z0-9]+$" },
+    "plan": { "type": "string" },
+    "state": {
+      "type": "string",
+      "enum": ["DRAFT", "PLANNED", "APPROVED", "REVALIDATING", "EXECUTING", "VERIFYING", "COMMITTED", "FAILED", "COMPENSATING", "COMPENSATED", "COMPENSATION_FAILED"]
+    },
+    "started_at": { "type": "string", "format": "date-time" },
+    "finished_at": { "type": ["string", "null"], "format": "date-time" },
+    "action_results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["action", "status"],
+        "properties": {
+          "action": { "type": "string" },
+          "status": { "type": "string", "enum": ["succeeded", "failed", "skipped"] },
+          "output": { "type": "object", "additionalProperties": true }
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

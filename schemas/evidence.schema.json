@@ -1,0 +1,25 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://forge.dev/schemas/evidence.schema.json",
+  "title": "Evidence",
+  "description": "Immutable record produced by an important Core operation.",
+  "type": "object",
+  "required": ["id", "type", "timestamp"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^ev_[a-zA-Z0-9]+$" },
+    "type": {
+      "type": "string",
+      "enum": ["observation", "plan_creation", "approval", "execution", "command_result", "state_transition", "verification", "compensation", "policy_decision"]
+    },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "resource": { "type": "string" },
+    "change": { "type": "string" },
+    "plan": { "type": "string" },
+    "execution": { "type": "string" },
+    "action": { "type": "string" },
+    "expected": { "type": "object", "additionalProperties": true },
+    "observed": { "type": "object", "additionalProperties": true },
+    "result": { "type": "string", "enum": ["passed", "failed"] }
+  },
+  "additionalProperties": false
+}

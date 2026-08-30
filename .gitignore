@@ -1,0 +1,4 @@
+/target
+.forge/
+Cargo.lock
+*.db

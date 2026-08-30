@@ -1,0 +1,28 @@
+[package]
+name = "forge-cli"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "forge"
+path = "src/main.rs"
+
+[dependencies]
+forge-core = { path = "../forge-core" }
+forge-resource = { path = "../forge-resource" }
+forge-change = { path = "../forge-change" }
+forge-state = { path = "../forge-state" }
+forge-plan = { path = "../forge-plan" }
+forge-exec = { path = "../forge-exec" }
+forge-verify = { path = "../forge-verify" }
+forge-compensate = { path = "../forge-compensate" }
+forge-policy = { path = "../forge-policy" }
+forge-evidence = { path = "../forge-evidence" }
+forge-storage = { path = "../forge-storage" }
+forge-plugin = { path = "../forge-plugin" }
+forge-plugin-filesystem = { path = "../../plugins/filesystem" }
+clap.workspace = true
+serde.workspace = true
+serde_json.workspace = true
+anyhow.workspace = true

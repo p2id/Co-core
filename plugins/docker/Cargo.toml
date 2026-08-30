@@ -1,0 +1,12 @@
+[package]
+name = "forge-plugin-docker"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+forge-core = { path = "../../crates/forge-core" }
+forge-resource = { path = "../../crates/forge-resource" }
+forge-plugin = { path = "../../crates/forge-plugin" }
+serde.workspace = true
+serde_json.workspace = true

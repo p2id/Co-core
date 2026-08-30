@@ -1,0 +1,17 @@
+[package]
+name = "forge-plugin"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+forge-core = { path = "../forge-core" }
+forge-resource = { path = "../forge-resource" }
+forge-policy = { path = "../forge-policy" }
+serde.workspace = true
+serde_json.workspace = true
+
+# wasmtime is intentionally NOT a dependency yet. Phase 15 (WASM plugin
+# boundary, ADR 0005) introduces it once the native `Plugin` trait below is
+# stable; the trait is designed so a WASM-backed implementation can satisfy
+# it without changing any caller in forge-cli.

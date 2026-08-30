@@ -1,0 +1,11 @@
+[package]
+name = "forge-plan"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+forge-core = { path = "../forge-core" }
+forge-change = { path = "../forge-change" }
+forge-state = { path = "../forge-state" }
+serde.workspace = true

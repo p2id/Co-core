@@ -1,0 +1,10 @@
+[package]
+name = "forge-evidence"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[dependencies]
+forge-core = { path = "../forge-core" }
+serde.workspace = true
+serde_json.workspace = true

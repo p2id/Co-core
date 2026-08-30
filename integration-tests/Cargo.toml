@@ -1,0 +1,23 @@
+[package]
+name = "forge-integration-tests"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish = false
+
+[lib]
+path = "src/lib.rs"
+
+[dev-dependencies]
+forge-core = { path = "../crates/forge-core" }
+forge-resource = { path = "../crates/forge-resource" }
+forge-change = { path = "../crates/forge-change" }
+forge-plan = { path = "../crates/forge-plan" }
+forge-state = { path = "../crates/forge-state" }
+forge-exec = { path = "../crates/forge-exec" }
+forge-verify = { path = "../crates/forge-verify" }
+forge-compensate = { path = "../crates/forge-compensate" }
+forge-policy = { path = "../crates/forge-policy" }
+forge-evidence = { path = "../crates/forge-evidence" }
+forge-graph = { path = "../crates/forge-graph" }
+serde_json = "1"

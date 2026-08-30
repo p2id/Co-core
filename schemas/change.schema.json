@@ -1,0 +1,20 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://forge.dev/schemas/change.schema.json",
+  "title": "Change",
+  "description": "Normalized, immutable representation of a change to a resource.",
+  "type": "object",
+  "required": ["id", "target", "operation", "before", "after", "source", "timestamp", "confidence"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^chg_[a-zA-Z0-9]+$" },
+    "target": { "type": "string", "description": "Resource id" },
+    "operation": { "type": "string", "enum": ["create", "update", "delete"] },
+    "before": { "type": "object", "additionalProperties": true },
+    "after": { "type": "object", "additionalProperties": true },
+    "source": { "type": "string", "enum": ["user", "plugin", "system"] },
+    "actor": { "type": "string" },
+    "timestamp": { "type": "string", "format": "date-time" },
+    "confidence": { "type": "number", "minimum": 0.0, "maximum": 1.0 }
+  },
+  "additionalProperties": false
+}

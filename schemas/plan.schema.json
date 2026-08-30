@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://forge.dev/schemas/plan.schema.json",
+  "title": "Plan",
+  "description": "A proposed set of changes/actions with ordering, risk, and verification/compensation strategy. Immutable after approval.",
+  "type": "object",
+  "required": ["id", "status", "changes", "actions", "ordering", "risk", "created_at"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^plan_[a-zA-Z0-9]+$" },
+    "status": {
+      "type": "string",
+      "enum": ["DRAFT", "PLANNED", "APPROVED", "REVALIDATING", "STALE", "EXECUTING", "VERIFYING", "COMMITTED", "FAILED", "COMPENSATING", "COMPENSATED", "COMPENSATION_FAILED"]
+    },
+    "changes": { "type": "array", "items": { "type": "string" } },
+    "actions": { "type": "array", "items": { "type": "string" } },
+    "ordering": {
+      "type": "array",
+      "items": { "type": "string" },
+      "description": "Action ids in execution order"
+    },
+    "constraints": { "type": "array", "items": { "type": "string" } },
+    "risk": { "type": "string", "enum": ["LOW", "MEDIUM", "HIGH", "CRITICAL"] },
+    "verification_strategy": { "type": "string" },
+    "compensation_strategy": { "type": "string" },
+    "created_at": { "type": "string", "format": "date-time" },
+    "approved_at": { "type": ["string", "null"], "format": "date-time" }
+  },
+  "additionalProperties": false
+}

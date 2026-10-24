@@ -8,29 +8,34 @@ export class InMemoryStore implements MemoryStore {
   private threads = new Map<string, Map<string, unknown>>();
   private logs = new Map<string, MemoryRecord[]>();
 
-  async get(threadId: string, key: string): Promise<unknown | undefined> {
-    return this.threadOf(threadId).get(key);
+  get(threadId: string, key: string): Promise<unknown> {
+    return Promise.resolve(this.threadOf(threadId).get(key));
   }
 
-  async set(threadId: string, key: string, value: unknown): Promise<void> {
+  set(threadId: string, key: string, value: unknown): Promise<void> {
     this.threadOf(threadId).set(key, value);
     this.appendLog(threadId, key, value);
+    return Promise.resolve();
   }
 
-  async append(threadId: string, key: string, value: unknown): Promise<void> {
+  append(threadId: string, key: string, value: unknown): Promise<void> {
     const existing = this.threadOf(threadId).get(key);
-    const next = Array.isArray(existing) ? [...existing, value] : [value];
+    const next: unknown[] = Array.isArray(existing)
+      ? [...(existing as unknown[]), value]
+      : [value];
     this.threadOf(threadId).set(key, next);
     this.appendLog(threadId, key, next);
+    return Promise.resolve();
   }
 
-  async history(threadId: string): Promise<MemoryRecord[]> {
-    return this.logs.get(threadId) ?? [];
+  history(threadId: string): Promise<MemoryRecord[]> {
+    return Promise.resolve(this.logs.get(threadId) ?? []);
   }
 
-  async clear(threadId: string): Promise<void> {
+  clear(threadId: string): Promise<void> {
     this.threads.delete(threadId);
     this.logs.delete(threadId);
+    return Promise.resolve();
   }
 
   private threadOf(threadId: string): Map<string, unknown> {

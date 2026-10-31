@@ -8,7 +8,7 @@ export class InMemoryStore implements MemoryStore {
   private threads = new Map<string, Map<string, unknown>>();
   private logs = new Map<string, MemoryRecord[]>();
 
-  get(threadId: string, key: string): Promise<unknown> {
+  get(threadId: string, key: string): Promise<unknown | undefined> {
     return Promise.resolve(this.threadOf(threadId).get(key));
   }
 
@@ -29,7 +29,8 @@ export class InMemoryStore implements MemoryStore {
   }
 
   history(threadId: string): Promise<MemoryRecord[]> {
-    return Promise.resolve(this.logs.get(threadId) ?? []);
+    const entries = this.logs.get(threadId) ?? [];
+    return Promise.resolve(entries.map((entry) => ({ ...entry })));
   }
 
   clear(threadId: string): Promise<void> {

@@ -28,6 +28,25 @@ describe('InMemoryStore', () => {
     expect(history[1].value).toBe('done');
   });
 
+  it('returns history snapshots that cannot mutate the stored log', async () => {
+    const store = new InMemoryStore();
+    await store.set('thread-1', 'status', 'started');
+    await store.set('thread-1', 'status', 'done');
+
+    const history = await store.history('thread-1');
+    history.pop();
+    history[0].key = 'tampered';
+    history[0].updatedAt = 0;
+
+    const nextHistory = await store.history('thread-1');
+    expect(nextHistory).toHaveLength(2);
+    expect(nextHistory[0]).toMatchObject({
+      key: 'status',
+      value: 'started',
+    });
+    expect(nextHistory[0].updatedAt).not.toBe(0);
+  });
+
   it('clears a thread completely', async () => {
     const store = new InMemoryStore();
     await store.set('thread-1', 'status', 'started');

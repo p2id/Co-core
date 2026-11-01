@@ -28,7 +28,7 @@ describe('InMemoryStore', () => {
     expect(history[1].value).toBe('done');
   });
 
-  it('returns history snapshots that cannot mutate the stored log', async () => {
+  it('returns shallow history snapshots that isolate record metadata', async () => {
     const store = new InMemoryStore();
     await store.set('thread-1', 'status', 'started');
     await store.set('thread-1', 'status', 'done');

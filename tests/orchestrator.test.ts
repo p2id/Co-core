@@ -72,6 +72,32 @@ describe('Orchestrator', () => {
     expect(failure).toBe('boom');
   });
 
+  it('marks thrown agent executions as failed and continues draining the queue', async () => {
+    const orchestrator = new Orchestrator();
+    orchestrator.register({
+      name: 'remote-agent',
+      capabilities: ['remote'],
+      execute: async () => {
+        throw new Error('remote unavailable');
+      },
+    });
+    orchestrator.register(new EchoAgent());
+
+    const outcomes: string[] = [];
+    orchestrator.events.on((event) => {
+      if (event.type === 'task.failed') outcomes.push(`failed:${event.error}`);
+      if (event.type === 'task.completed') outcomes.push(`completed:${event.agent}`);
+    });
+
+    const failedTask = orchestrator.submit({ capability: 'remote', payload: null });
+    const nextTask = orchestrator.submit({ capability: 'echo', payload: 'still running' });
+    await orchestrator.run();
+
+    expect(failedTask.status).toBe('failed');
+    expect(nextTask.status).toBe('completed');
+    expect(outcomes).toEqual(['failed:remote unavailable', 'completed:echo-agent']);
+  });
+
   it('gives agents access to a shared memory thread', async () => {
     const orchestrator = new Orchestrator();
     orchestrator.register(new MemoryWritingAgent());

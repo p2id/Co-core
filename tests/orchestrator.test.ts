@@ -98,6 +98,28 @@ describe('Orchestrator', () => {
     expect(outcomes).toEqual(['failed:remote unavailable', 'completed:echo-agent']);
   });
 
+  it('normalizes non-Error rejection values in task failure events', async () => {
+    const orchestrator = new Orchestrator();
+    orchestrator.register({
+      name: 'remote-agent',
+      capabilities: ['remote'],
+      execute: async () => {
+        throw 'remote unavailable';
+      },
+    });
+
+    let failure: string | undefined;
+    orchestrator.events.on((event) => {
+      if (event.type === 'task.failed') failure = event.error;
+    });
+
+    const task = orchestrator.submit({ capability: 'remote', payload: null });
+    await orchestrator.run();
+
+    expect(task.status).toBe('failed');
+    expect(failure).toBe('remote unavailable');
+  });
+
   it('gives agents access to a shared memory thread', async () => {
     const orchestrator = new Orchestrator();
     orchestrator.register(new MemoryWritingAgent());

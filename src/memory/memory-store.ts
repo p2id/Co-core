@@ -10,9 +10,10 @@ export interface MemoryRecord {
  * else — the orchestrator only ever depends on this interface.
  */
 export interface MemoryStore {
-  get(threadId: string, key: string): Promise<unknown | undefined>;
+  get(threadId: string, key: string): Promise<unknown>;
   set(threadId: string, key: string, value: unknown): Promise<void>;
   append(threadId: string, key: string, value: unknown): Promise<void>;
+  /** Returns copied record envelopes; each record's opaque `value` is not cloned. */
   history(threadId: string): Promise<MemoryRecord[]>;
   clear(threadId: string): Promise<void>;
 }

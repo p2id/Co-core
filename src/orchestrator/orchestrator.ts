@@ -69,7 +69,19 @@ export class Orchestrator {
     task.status = 'running';
     this.events.emit({ type: 'task.started', task, agent: agent.name });
 
-    const result = await agent.execute(task, { threadId: task.threadId, memory: this.memory });
+    let result;
+    try {
+      result = await agent.execute(task, { threadId: task.threadId, memory: this.memory });
+    } catch (error) {
+      task.status = 'failed';
+      this.events.emit({
+        type: 'task.failed',
+        task,
+        agent: agent.name,
+        error: error instanceof Error ? error.message : String(error),
+      });
+      return;
+    }
 
     if (result.success) {
       task.status = 'completed';

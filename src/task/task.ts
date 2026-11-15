@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto';
+
 export type TaskStatus = 'pending' | 'running' | 'completed' | 'failed';
 
 export interface TaskInput {
@@ -21,12 +23,12 @@ export interface Task extends TaskInput {
 
 export function createTask(input: TaskInput): Task {
   return {
-    id: crypto.randomUUID(),
+    id: randomUUID(),
     status: 'pending',
     createdAt: Date.now(),
     priority: input.priority ?? 0,
     capability: input.capability,
     payload: input.payload,
-    threadId: input.threadId ?? crypto.randomUUID(),
+    threadId: input.threadId ?? randomUUID(),
   };
 }
